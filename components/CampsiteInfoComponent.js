@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet, Alert, Vibration } from 'react-native';
 import { Card, Icon, Rating, Input } from 'react-native-elements';
 //import { CAMPSITES } from '../shared/campsites';
 //import { COMMENTS } from '../shared/comments';
@@ -104,10 +104,21 @@ class CampsiteInfo extends Component {
 
     handleComment(campsiteId) {
         const { rating, author, text } = this.state;
+
+        //Just messing around and decided to try it out! React Native Components for the win!
+        Vibration.vibrate();
+        Alert.alert(
+            `Thanks for your submission, ${author}!`,
+            `You gave us ${rating} stars and said:\n\n"${text}"\n\nWe appreciate your feedback and hope to see you again soon!`,
+            [
+                { text: "Camp on!", onPress: () => console.log("OK Pressed") }
+            ],
+            { cancelable: false }
+        );
+
+        //Now back to what I was supposed to be doing. =)
         this.toggleModal();
         this.props.postComment(campsiteId, rating, author, text);
-        alert(`Thanks for your submission, ${author}!\n\nYou gave us ${rating} stars and said:\n\n"${text}"\n\nWe appreciate your feedback and hope to see you again soon!`);
-        //alert("Current state is: " + JSON.stringify(`campsiteId ${campsiteId}, rating: ${rating}, author: ${author}, text: ${text}`));
     }
 
     resetForm() {
