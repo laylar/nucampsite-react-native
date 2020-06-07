@@ -6,6 +6,7 @@ import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite } from '../redux/ActionCreators';
+import { postComment } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
@@ -16,7 +17,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    postFavorite: campsiteId => (postFavorite(campsiteId))
+    postFavorite: campsiteId => (postFavorite(campsiteId)),
+    postComment: (campsiteId, rating, author, text) => (postComment(campsiteId, rating, author, text))
 };
 
 function RenderCampsite(props) {
@@ -101,8 +103,11 @@ class CampsiteInfo extends Component {
     }
 
     handleComment(campsiteId) {
-        console.log(JSON.stringify(this.state));
+        const { rating, author, text } = this.state;
         this.toggleModal();
+        this.props.postComment(campsiteId, rating, author, text);
+        alert(`Thanks for your submission, ${author}!\n\nYou gave us ${rating} stars and said:\n\n"${text}"\n\nWe appreciate your feedback and hope to see you again soon!`);
+        //alert("Current state is: " + JSON.stringify(`campsiteId ${campsiteId}, rating: ${rating}, author: ${author}, text: ${text}`));
     }
 
     resetForm() {
@@ -146,6 +151,7 @@ class CampsiteInfo extends Component {
                             showRating
                             startingValue={this.state.rating}
                             imageSize={40}
+                            rating={this.state.rating}
                             onFinishRating={(rating) => this.setState({ rating: rating })}
                             style={{ paddingVertical: 10 }}
                         />
@@ -154,6 +160,7 @@ class CampsiteInfo extends Component {
                             placeholder='Author'
                             leftIcon={{ type: 'font-awesome', name: 'user-o' }}
                             leftIconContainerStyle={{ paddingRight: 10 }}
+                            author={this.state.author}
                             onChangeText={(author) => this.setState({ author: author })}
                             value={{ maxLength: 20 }}
                         />
@@ -161,6 +168,7 @@ class CampsiteInfo extends Component {
                             placeholder='Comment'
                             leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
                             leftIconContainerStyle={{ paddingRight: 10 }}
+                            text={this.state.text}
                             onChangeText={(text) => this.setState({ text: text })}
                             value={{ maxLength: 200 }}
 
