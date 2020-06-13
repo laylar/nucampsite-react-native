@@ -69,6 +69,7 @@ function RenderCampsite(props) {
     })
 
     if (campsite) {
+        const { image, name } = campsite
         return (
             <Animatable.View
                 animation='fadeInDown'
@@ -78,8 +79,8 @@ function RenderCampsite(props) {
                 {...panResponder.panHandlers}
             >
                 <Card
-                    featuredTitle={campsite.name}
-                    image={{ uri: baseUrl + campsite.image }}>
+                    featuredTitle={name}
+                    image={{ uri: baseUrl + image }}>
                     <Text style={{ margin: 10 }}>
                         {campsite.description}
                     </Text>
@@ -113,16 +114,18 @@ function RenderCampsite(props) {
 function RenderComments({ comments }) {
 
     const renderCommentItem = ({ item }) => {
+        const { rating, text, author, date } = item
+
         return (
             <View style={{ margin: 10 }}>
-                <Text style={{ fontSize: 14 }}>{item.text}</Text>
+                <Text style={{ fontSize: 14 }}>{text}</Text>
                 <Rating
-                    startingValue={item.rating}
+                    startingValue={rating}
                     imageSize={10}
                     style={{ alignItems: 'flex-start', paddingVertical: '5%' }}
                     readonly
                 />
-                <Text style={{ fontSize: 12 }}>{`-- ${item.author}, ${item.date}`}</Text>
+                <Text style={{ fontSize: 12 }}>{`-- ${author}, ${date}`}</Text>
             </View>
         )
     };
