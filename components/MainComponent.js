@@ -242,7 +242,7 @@ const MainNavigator = createDrawerNavigator(
                         name='home'
                         type='font-awesome'
                         size={24}
-                        color={tintColor} //you can change what the active and inactive colors are -- look in the documentation
+                        color={tintColor}
                     />
                 )
             }
@@ -255,7 +255,7 @@ const MainNavigator = createDrawerNavigator(
                         name='list'
                         type='font-awesome'
                         size={24}
-                        color={tintColor} //you can change what the active and inactive colors are -- look in the documentation
+                        color={tintColor}
                     />
                 )
             }
@@ -269,7 +269,7 @@ const MainNavigator = createDrawerNavigator(
                         name='tree'
                         type='font-awesome'
                         size={24}
-                        color={tintColor} //you can change what the active and inactive colors are -- look in the documentation
+                        color={tintColor}
                     />
                 )
             }
@@ -311,7 +311,7 @@ const MainNavigator = createDrawerNavigator(
                         name='address-card'
                         type='font-awesome'
                         size={24}
-                        color={tintColor} //you can change what the active and inactive colors are -- look in the documentation
+                        color={tintColor}
                     />
                 )
             }
@@ -326,13 +326,8 @@ const MainNavigator = createDrawerNavigator(
 
 class Main extends Component {
 
-    componentDidMount() {
-        this.props.fetchCampsites();
-        this.props.fetchComments();
-        this.props.fetchPromotions();
-        this.props.fetchPartners();
-
-        NetInfo.fetch().then(connectionInfo => {
+    showNetInfo = async () => {
+        const connectionInfo = await NetInfo.fetch().then(connectionInfo => {
             (Platform.OS === 'ios') ?
                 Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
                 : ToastAndroid.show('Initial Network Connectivity Type: ' +
@@ -341,7 +336,15 @@ class Main extends Component {
         this.unsubscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
             this.handleConnectivityChange(connectionInfo);
         });
+    }
 
+    componentDidMount() {
+        this.props.fetchCampsites();
+        this.props.fetchComments();
+        this.props.fetchPromotions();
+        this.props.fetchPartners();
+
+        this.showNetInfo();
     }
 
     componentWillUnmount() {

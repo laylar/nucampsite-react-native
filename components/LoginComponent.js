@@ -154,12 +154,10 @@ class RegisterTab extends Component {
             });
             if (!capturedImage.cancelled) {
                 console.log(capturedImage);
-                //workshop #4 Task 1
                 this.processImage(capturedImage.uri)
             }
         }
     }
-    //workshop #4 Task 1
     processImage = async (imgUri) => {
         const processedImage = await ImageManipulator.manipulateAsync(
             imgUri,
@@ -170,7 +168,6 @@ class RegisterTab extends Component {
         this.setState({ imageUrl: processedImage.uri })
     }
 
-    //workshop #4 
     getImageFromGallery = async () => {
         const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
