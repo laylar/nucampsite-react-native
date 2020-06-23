@@ -4,6 +4,7 @@ import { Input, CheckBox, Button, Icon } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import * as MediaLibrary from 'expo-media-library';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { createBottomTabNavigator } from 'react-navigation';
 import { baseUrl } from '../shared/baseUrl';
@@ -154,10 +155,13 @@ class RegisterTab extends Component {
             });
             if (!capturedImage.cancelled) {
                 console.log(capturedImage);
-                this.processImage(capturedImage.uri)
+                this.processImage(capturedImage.uri);
+                //this doesn't break things as far as I can tell, but it doesn't work yet, either.
+                this.MediaLibrary.saveToLibraryAsync(capturedImage.uri);
             }
         }
     }
+
     processImage = async (imgUri) => {
         const processedImage = await ImageManipulator.manipulateAsync(
             imgUri,
@@ -165,7 +169,7 @@ class RegisterTab extends Component {
             { format: ImageManipulator.SaveFormat.PNG }
         )
         console.log(processedImage);
-        this.setState({ imageUrl: processedImage.uri })
+        this.setState({ imageUrl: processedImage.uri });
     }
 
     getImageFromGallery = async () => {

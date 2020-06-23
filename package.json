@@ -13,6 +13,7 @@
     "expo-image-manipulator": "^7.0.0",
     "expo-image-picker": "^7.0.0",
     "expo-mail-composer": "^7.0.0",
+    "expo-media-library": "^8.1.0",
     "expo-secure-store": "^7.0.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
